@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SP24B2_TutorSof3011_01:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>SP24B2_TutorSof3011_01</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="SP24B2_TutorSof3011_01-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="SP24B2_TutorSof3011_01:war exploded" />
+    </root>
+  </artifact>
+</component>
