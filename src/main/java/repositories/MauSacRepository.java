@@ -49,4 +49,16 @@ public class MauSacRepository {
             }
         }
     }
+
+    public MauSac findById(int id)
+    {
+        for (int i = 0; i < this.listMS.size(); i++) {
+            MauSac value = this.listMS.get(i);
+            if (value.getId() == id) {
+                return value;
+            }
+        }
+
+        return null;
+    }
 }
