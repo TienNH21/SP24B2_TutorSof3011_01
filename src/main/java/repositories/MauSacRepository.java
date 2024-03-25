@@ -1,64 +1,64 @@
 package repositories;
 
 import entities.MauSac;
+import jakarta.persistence.Query;
+import org.hibernate.Session;
+import utils.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MauSacRepository {
-    private List<MauSac> listMS = new ArrayList<>();
+    private Session hSession;
 
     public MauSacRepository()
     {
-        this.listMS.add(new MauSac(1, "PH1", "Red", 1));
-        this.listMS.add(new MauSac(2, "PH2", "Green", 1));
-        this.listMS.add(new MauSac(3, "PH3", "Black", 0));
-    }
-
-    public List<MauSac> getListMS() {
-        return listMS;
-    }
-
-    public void setListMS(List<MauSac> listMS) {
-        this.listMS = listMS;
+        this.hSession = HibernateUtil.getFACTORY().openSession();
     }
 
     public void create(MauSac ms)
     {
-        this.listMS.add(ms);
-    }
-
-    public void update(MauSac newValue)
-    {
-        for (int i = 0; i < this.listMS.size(); i++) {
-            MauSac oldValue = this.listMS.get(i);
-            if (oldValue.getId() == newValue.getId()) {
-                this.listMS.set(i, newValue);
-                return ;
-            }
+        try {
+            this.hSession.getTransaction().begin();
+            this.hSession.persist(ms);
+            this.hSession.getTransaction().commit();
+        } catch (Exception e) {
+            this.hSession.getTransaction().rollback();
         }
     }
 
-    public void delete(MauSac newValue)
+    public void update(MauSac ms)
     {
-        for (int i = 0; i < this.listMS.size(); i++) {
-            MauSac oldValue = this.listMS.get(i);
-            if (oldValue.getId() == newValue.getId()) {
-                this.listMS.remove(i);
-                return ;
-            }
+        try {
+            this.hSession.getTransaction().begin();
+            this.hSession.merge(ms);
+            this.hSession.getTransaction().commit();
+        } catch (Exception e) {
+            this.hSession.getTransaction().rollback();
+        }
+    }
+
+    public void delete(MauSac ms)
+    {
+        try {
+            this.hSession.getTransaction().begin();
+            this.hSession.remove(ms);
+            this.hSession.getTransaction().commit();
+        } catch (Exception e) {
+            this.hSession.getTransaction().rollback();
         }
     }
 
     public MauSac findById(int id)
     {
-        for (int i = 0; i < this.listMS.size(); i++) {
-            MauSac value = this.listMS.get(i);
-            if (value.getId() == id) {
-                return value;
-            }
-        }
+        return this.hSession.find(MauSac.class, id);
+    }
 
-        return null;
+    public List<MauSac> findAll()
+    {
+        // SELECT * FROM MauSac
+        String hql = "SELECT entity FROM MauSac entity";
+        Query q = this.hSession.createQuery(hql, MauSac.class);
+        return q.getResultList();
     }
 }

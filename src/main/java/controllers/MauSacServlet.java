@@ -55,7 +55,7 @@ public class MauSacServlet extends HttpServlet {
             HttpServletRequest req,
             HttpServletResponse resp
     ) throws ServletException, IOException {
-        req.setAttribute("data", msRepo.getListMS());
+        req.setAttribute("data", msRepo.findAll());
         req.getRequestDispatcher("/views/mau_sac/index.jsp")
             .forward(req, resp);
     }
